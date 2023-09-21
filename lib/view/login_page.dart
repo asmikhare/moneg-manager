@@ -1,4 +1,4 @@
-import 'package:expensetrackermobileapp/constants/text_styles.dart';
+import 'package:expensetrackermobileapp/controller/auth_controller.dart';
 import 'package:expensetrackermobileapp/validations/email_validation.dart';
 import 'package:expensetrackermobileapp/validations/password_validation.dart';
 import 'package:flutter/material.dart';
@@ -17,13 +17,24 @@ class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
 
   @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Login"),
+      ),
       body: ListView(
         children: [
           SizedBox(
-            height: size.height * 0.5,
+            height: size.height * 0.45,
             width: size.width,
             child: Lottie.asset("asset/animation/LoginAnimation.json"),
           ),
@@ -33,10 +44,6 @@ class _LoginPageState extends State<LoginPage> {
               key: globalKey,
               child: Column(
                 children: [
-                  Text(
-                    "Login",
-                    style: splashScreenTextStyleMain,
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -87,7 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/forgotpasswordpage");
+                        },
                         child: const Text(
                           "Forgot Password?",
                           style: TextStyle(
@@ -114,14 +123,17 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   MaterialButton(
                     elevation: 0,
-                    color: Colors.black,
+                    color: Colors.green,
                     height: size.height * 0.06,
                     minWidth: size.width,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     onPressed: () {
-                      if (globalKey.currentState!.validate()) {}
+                      if (globalKey.currentState!.validate()) {
+                        AuthController.loginUser(emailController.text.trim(),
+                            passwordController.text, context);
+                      }
                     },
                     child: const Text(
                       "Login",

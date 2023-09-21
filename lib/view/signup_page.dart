@@ -1,3 +1,5 @@
+import 'package:expensetrackermobileapp/controller/auth_controller.dart';
+import 'package:expensetrackermobileapp/utils/reusable_snackbar.dart';
 import 'package:expensetrackermobileapp/validations/email_validation.dart';
 import 'package:expensetrackermobileapp/validations/password_validation.dart';
 import 'package:flutter/material.dart';
@@ -17,18 +19,29 @@ class _SignupPageState extends State<SignupPage> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
 
   @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Signup Page"),
+      ),
       body: ListView(
         children: [
           SizedBox(
-            height: size.height * 0.5,
+            height: size.height * 0.45,
             width: size.width,
             child: Lottie.asset("asset/animation/SignupAnimation.json"),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Form(
               key: globalKey,
               child: Column(
@@ -102,21 +115,22 @@ class _SignupPageState extends State<SignupPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text(
-                            "Already have an account?",
-                            style: TextStyle(
-                              color: Colors.black,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ))
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          "Already have an account?",
+                          style: TextStyle(
+                            color: Colors.black,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                   MaterialButton(
                     elevation: 0,
-                    color: Colors.black,
+                    color: Colors.green,
                     height: size.height * 0.06,
                     minWidth: size.width,
                     shape: RoundedRectangleBorder(
@@ -124,11 +138,14 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     onPressed: () {
                       if (globalKey.currentState!.validate() &&
-                          emailController.text
+                          passwordController.text
                                   .compareTo(confirmPasswordController.text) ==
                               0) {
+                        AuthController.createUser(emailController.text.trim(),
+                            passwordController.text, context);
                       } else {
-                        debugPrint("Password Didnot matched");
+                        ReusableSnackBar.showSnackBar(
+                            context, "Password didnot matched");
                       }
                     },
                     child: const Text(
