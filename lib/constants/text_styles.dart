@@ -9,3 +9,9 @@ TextStyle splashScreenTextStyleMain = GoogleFonts.inter(
 TextStyle splashScreenTextStyleSubtitle = GoogleFonts.inter(
     textStyle: const TextStyle(
         color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal));
+
+TextStyle userProfileNameStyle = const TextStyle(
+    fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black);
+
+TextStyle listTileTextStyle = const TextStyle(
+    fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500);

@@ -1,4 +1,12 @@
+import 'package:expensetrackermobileapp/provider/change_index_provider.dart';
+import 'package:expensetrackermobileapp/view/add_transaction_page.dart';
+import 'package:expensetrackermobileapp/view/landing_home_page.dart';
+import 'package:expensetrackermobileapp/view/profile_page.dart';
+import 'package:expensetrackermobileapp/view/statitics_page.dart';
+import 'package:expensetrackermobileapp/view/transaction_page.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -8,38 +16,46 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  PageController pageController = PageController();
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.sizeOf(context);
     return Scaffold(
-      body: ListView(
-        children: [
-          Container(
-            height: 300,
-            width: size.width,
-            decoration: const BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-            ),
-            child: ListView(
-              children: [
-                ListTile(
-                  leading: Text(DateTime.now().day.toString()),
-                  trailing: const CircleAvatar(),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Divider(
-                  thickness: 2,
-                ),
-              ],
-            ),
-          )
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        allowImplicitScrolling: false,
+        controller: pageController,
+        children: const [
+          LandingHomePage(),
+          TransactionPage(),
+          AddTransactionPage(),
+          StatiticsPage(),
+          ProfilePage(),
         ],
+      ),
+      bottomNavigationBar: Consumer<ChangeIndexProvider>(
+        builder: (context, value, child) {
+          return BottomNavigationBar(
+            currentIndex: value.currentIndex,
+            onTap: (index) {
+              value.changeIndex(index);
+              pageController.jumpToPage(index);
+            },
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Ionicons.home),
+                  label: "Home",
+                  backgroundColor: Colors.red),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.compare_arrows), label: "Transaction"),
+              BottomNavigationBarItem(
+                  icon: Icon(Ionicons.add), label: "Add Transaction"),
+              BottomNavigationBarItem(
+                  icon: Icon(Ionicons.stats_chart_outline), label: "Statitics"),
+              BottomNavigationBarItem(
+                  icon: Icon(Ionicons.person), label: "Profile"),
+            ],
+          );
+        },
       ),
     );
   }

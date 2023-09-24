@@ -11,29 +11,29 @@ class AuthController extends GetxController {
   static loginUser(String email, String password, BuildContext context) async {
     try {
       DialogProgressBar.showDialogProgressBar(context);
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then(
+      auth.signInWithEmailAndPassword(email: email, password: password).then(
         (value) {
           DialogProgressBar.hideLoadingDialog(context);
-          message = "Login Sucess";
-          ReusableSnackBar.showSnackBar(context, message);
           Navigator.pushReplacementNamed(context, "/myhomepage");
         },
       ).onError(
         (error, stackTrace) {
           DialogProgressBar.hideLoadingDialog(context);
-          message = "An error occured";
+          message = "Failed to login, check email and password";
           ReusableSnackBar.showSnackBar(context, message);
         },
       );
     } on FirebaseAuthException catch (e) {
       DialogProgressBar.hideLoadingDialog(context);
       if (e.code == 'user-not-found') {
-        message = "User not found";
+        message = "No user found for that email.";
       } else if (e.code == 'wrong-password') {
-        message = "Wrong password for that user";
+        message = "Wrong password provided for that user.";
       }
+      ReusableSnackBar.showSnackBar(context, message);
+    } catch (e) {
+      DialogProgressBar.hideLoadingDialog(context);
+      message = "An unknown error occured";
       ReusableSnackBar.showSnackBar(context, message);
     }
   }
@@ -51,14 +51,20 @@ class AuthController extends GetxController {
         },
       );
     } on FirebaseAuthException catch (e) {
-      DialogProgressBar.hideLoadingDialog(context);
+      if (context.mounted) DialogProgressBar.hideLoadingDialog(context);
       if (e.code == 'weak-password') {
-        ReusableSnackBar.showSnackBar(context, "Weak password");
+        if (context.mounted) {
+          ReusableSnackBar.showSnackBar(context, "Weak password");
+        }
       } else if (e.code == 'email-already-in-use') {
-        ReusableSnackBar.showSnackBar(context, "Email is already in use");
+        if (context.mounted) {
+          ReusableSnackBar.showSnackBar(context, "Email is already in use");
+        }
       }
     } catch (e) {
-      ReusableSnackBar.showSnackBar(context, "An unknown error occured");
+      if (context.mounted) {
+        ReusableSnackBar.showSnackBar(context, "An unknown error occured");
+      }
     }
   }
 
@@ -68,9 +74,8 @@ class AuthController extends GetxController {
           context, "Reset link sent sucessfully,check email");
     }).onError(
       (error, stackTrace) {
-        debugPrint("$error");
         ReusableSnackBar.showSnackBar(
-            context, "Failed to send reset link mail $error");
+            context, "Failed to send reset link mail");
       },
     );
   }
