@@ -18,7 +18,13 @@ class LogoutDialogBox {
                 child: const Text("No"),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () async {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    "/splashscreen",
+                    (route) => false,
+                  );
+                },
                 child: const Text("Yes"),
               ),
             ],

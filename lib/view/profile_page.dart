@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'package:expensetrackermobileapp/constants/text_styles.dart';
 import 'package:expensetrackermobileapp/controller/auth_controller.dart';
+import 'package:expensetrackermobileapp/provider/profile_image_provider.dart';
 import 'package:expensetrackermobileapp/utils/bottom_sheet_for_picking_image.dart';
 import 'package:expensetrackermobileapp/utils/logout_dialogbox.dart';
 import 'package:expensetrackermobileapp/utils/reusable_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -24,9 +27,19 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Row(
               children: [
-                const CircleAvatar(
-                  radius: 60,
-                ),
+                Consumer<ProfileImageProvider>(
+                    builder: (context, value, child) {
+                  return value.filePath == null
+                      ? const CircleAvatar(
+                          radius: 45,
+                        )
+                      : CircleAvatar(
+                          radius: 45,
+                          backgroundImage: FileImage(
+                            File(value.filePath!.path),
+                          ),
+                        );
+                }),
                 SizedBox(
                   width: size.width * 0.08,
                 ),

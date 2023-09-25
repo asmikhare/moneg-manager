@@ -42,17 +42,30 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Ionicons.home),
-                  label: "Home",
-                  backgroundColor: Colors.red),
+                icon: Icon(Ionicons.home),
+                label: "Home",
+                backgroundColor: Colors.green,
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.compare_arrows), label: "Transaction"),
+                icon: Icon(Icons.compare_arrows),
+                label: "Transaction",
+                backgroundColor: Colors.green,
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Ionicons.add), label: "Add Transaction"),
+                icon: Icon(Ionicons.add),
+                label: "Add Transaction",
+                backgroundColor: Colors.green,
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Ionicons.stats_chart_outline), label: "Statitics"),
+                icon: Icon(Ionicons.stats_chart_outline),
+                label: "Statitics",
+                backgroundColor: Colors.green,
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Ionicons.person), label: "Profile"),
+                icon: Icon(Ionicons.person),
+                label: "Profile",
+                backgroundColor: Colors.green,
+              ),
             ],
           );
         },

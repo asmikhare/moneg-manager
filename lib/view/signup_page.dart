@@ -29,10 +29,6 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Signup Page"),
-      ),
       body: ListView(
         children: [
           SizedBox(
@@ -145,7 +141,7 @@ class _SignupPageState extends State<SignupPage> {
                             passwordController.text, context);
                       } else {
                         ReusableSnackBar.showSnackBar(
-                            context, "Password didnot matched");
+                            context, "Both password must match");
                       }
                     },
                     child: const Text(
