@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 16,
                           fontWeight: FontWeight.w600),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                       prefixIcon: const Icon(Icons.lock),
                       suffixIcon: const Icon(Icons.visibility),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),

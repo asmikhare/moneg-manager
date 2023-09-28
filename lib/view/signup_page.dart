@@ -133,15 +133,16 @@ class _SignupPageState extends State<SignupPage> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     onPressed: () {
-                      if (globalKey.currentState!.validate() &&
-                          passwordController.text
-                                  .compareTo(confirmPasswordController.text) ==
-                              0) {
-                        AuthController.createUser(emailController.text.trim(),
-                            passwordController.text, context);
-                      } else {
-                        ReusableSnackBar.showSnackBar(
-                            context, "Both password must match");
+                      if (globalKey.currentState!.validate()) {
+                        if (passwordController.text
+                                .compareTo(confirmPasswordController.text) ==
+                            0) {
+                          AuthController.createUser(emailController.text.trim(),
+                              passwordController.text, context);
+                        } else {
+                          ReusableSnackBar.showSnackBar(
+                              context, "Both password must match");
+                        }
                       }
                     },
                     child: const Text(
