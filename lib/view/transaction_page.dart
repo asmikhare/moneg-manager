@@ -38,6 +38,7 @@ class _TransactionPageState extends State<TransactionPage> {
             );
           } else {
             final data = snapshot.requireData;
+
             if (data.size == 0) {
               return Center(
                 child: SizedBox(
@@ -123,7 +124,13 @@ class _TransactionPageState extends State<TransactionPage> {
                                         builder: (context) {
                                           return AlertDialog(
                                             title: const Text(
-                                                "Do you really want to delete this expense"),
+                                              "Do you really want to delete this expense",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                      FontWeight.normal),
+                                            ),
                                             actions: [
                                               TextButton(
                                                 onPressed: () async {
