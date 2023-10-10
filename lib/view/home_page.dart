@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Ionicons.stats_chart_outline),
-                label: "Statitics",
+                label: "Statistics",
                 backgroundColor: Colors.green,
               ),
               BottomNavigationBarItem(

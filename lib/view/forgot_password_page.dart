@@ -42,6 +42,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       "asset/animation/ResetPasswordAnimation.json"),
                 ),
                 TextFormField(
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
                   validator: (value) {
                     final message = EmailValidation.validateEmail(value!);
                     return message;

@@ -1,8 +1,10 @@
 import 'package:expensetrackermobileapp/controller/auth_controller.dart';
+import 'package:expensetrackermobileapp/provider/show_hide_password.dart';
 import 'package:expensetrackermobileapp/validations/email_validation.dart';
 import 'package:expensetrackermobileapp/validations/password_validation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -44,6 +46,10 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                   ),
                   TextFormField(
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
                     validator: (value) {
                       final message = EmailValidation.validateEmail(value!);
                       return message;
@@ -64,25 +70,37 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 30,
                   ),
-                  TextFormField(
-                    validator: (value) {
-                      final message = PasswordValidation.isStrongPass(value!);
-                      return message;
-                    },
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      labelText: "Enter your password",
-                      labelStyle: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                      prefixIcon: const Icon(Icons.lock),
-                      suffixIcon: const Icon(Icons.visibility),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  Consumer<ShowHidePassword>(builder: (context, value, child) {
+                    return TextFormField(
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w500),
+                      validator: (v) {
+                        final message = PasswordValidation.isStrongPass(v!);
+                        return message;
+                      },
+                      obscureText: value.isHidden,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        labelText: "Enter your password",
+                        labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            value.changeStatus();
+                          },
+                          icon: value.isHidden
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                   const SizedBox(
                     height: 5,
                   ),

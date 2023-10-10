@@ -9,33 +9,30 @@ late String message;
 
 class AuthController extends GetxController {
   static loginUser(String email, String password, BuildContext context) async {
-    try {
-      DialogProgressBar.showDialogProgressBar(context);
-      auth.signInWithEmailAndPassword(email: email, password: password).then(
-        (value) {
-          DialogProgressBar.hideLoadingDialog(context);
-          Navigator.pushReplacementNamed(context, "/myhomepage");
-        },
-      ).onError(
-        (error, stackTrace) {
-          DialogProgressBar.hideLoadingDialog(context);
-          message = "Failed to login, check email and password";
-          ReusableSnackBar.showSnackBar(context, message);
-        },
-      );
-    } on FirebaseAuthException catch (e) {
-      DialogProgressBar.hideLoadingDialog(context);
-      if (e.code == 'user-not-found') {
-        message = "No user found for that email.";
-      } else if (e.code == 'wrong-password') {
-        message = "Wrong password provided for that user.";
-      }
-      ReusableSnackBar.showSnackBar(context, message);
-    } catch (e) {
-      DialogProgressBar.hideLoadingDialog(context);
-      message = "An unknown error occured";
-      ReusableSnackBar.showSnackBar(context, message);
-    }
+    DialogProgressBar.showDialogProgressBar(context);
+    auth.signInWithEmailAndPassword(email: email, password: password).then(
+      (value) {
+        DialogProgressBar.hideLoadingDialog(context);
+        Navigator.pushReplacementNamed(context, "/myhomepage");
+      },
+    ).onError(
+      (error, stackTrace) {
+        DialogProgressBar.hideLoadingDialog(context);
+        if (error is FirebaseAuthException) {
+          if (error.code == "user-not-found") {
+            ReusableSnackBar.showSnackBar(context, "User not found");
+          } else if (error.code == "wrong-password") {
+            ReusableSnackBar.showSnackBar(
+                context, "Wrong password for that account");
+          } else if (error.code == "network-request-failed") {
+            ReusableSnackBar.showSnackBar(context,
+                "Network request time out,check your internet connectivity");
+          } else {
+            ReusableSnackBar.showSnackBar(context, error.code.toString());
+          }
+        }
+      },
+    );
   }
 
   static createUser(String email, String password, BuildContext context) async {

@@ -1,9 +1,11 @@
 import 'package:expensetrackermobileapp/controller/auth_controller.dart';
+import 'package:expensetrackermobileapp/provider/show_hide_password.dart';
 import 'package:expensetrackermobileapp/utils/reusable_snackbar.dart';
 import 'package:expensetrackermobileapp/validations/email_validation.dart';
 import 'package:expensetrackermobileapp/validations/password_validation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -43,6 +45,10 @@ class _SignupPageState extends State<SignupPage> {
               child: Column(
                 children: [
                   TextFormField(
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
                     validator: (value) {
                       final message = EmailValidation.validateEmail(value!);
                       return message;
@@ -63,47 +69,74 @@ class _SignupPageState extends State<SignupPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    validator: (value) {
-                      final message = PasswordValidation.isStrongPass(value!);
-                      return message;
-                    },
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      labelText: "Define your password",
-                      labelStyle: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                      prefixIcon: const Icon(Icons.lock),
-                      suffixIcon: const Icon(Icons.visibility),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                  Consumer<ShowHidePassword>(builder: (context, value, child) {
+                    return TextFormField(
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                       ),
-                    ),
-                  ),
+                      obscureText: value.isHidden,
+                      validator: (value) {
+                        final message = PasswordValidation.isStrongPass(value!);
+                        return message;
+                      },
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        labelText: "Define your password",
+                        labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            value.changeStatus();
+                          },
+                          icon: value.isHidden
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                    );
+                  }),
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    validator: (value) {
-                      final message = PasswordValidation.isStrongPass(value!);
-                      return message;
-                    },
-                    controller: confirmPasswordController,
-                    decoration: InputDecoration(
-                      labelText: "Confirm Password",
-                      labelStyle: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                      prefixIcon: const Icon(Icons.lock),
-                      suffixIcon: const Icon(Icons.visibility),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                  Consumer<ShowHidePassword>(builder: (context, value, child) {
+                    return TextFormField(
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                       ),
-                    ),
-                  ),
+                      validator: (value) {
+                        final message = PasswordValidation.isStrongPass(value!);
+                        return message;
+                      },
+                      obscureText: value.isHidden,
+                      controller: confirmPasswordController,
+                      decoration: InputDecoration(
+                        labelText: "Confirm Password",
+                        labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              value.changeStatus();
+                            },
+                            icon: value.isHidden
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                    );
+                  }),
                   const SizedBox(
                     height: 5,
                   ),

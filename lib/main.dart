@@ -2,6 +2,7 @@ import 'package:expensetrackermobileapp/provider/change_index_provider.dart';
 import 'package:expensetrackermobileapp/provider/change_selected_category.dart';
 import 'package:expensetrackermobileapp/provider/date_selector_provider.dart';
 import 'package:expensetrackermobileapp/provider/profile_image_provider.dart';
+import 'package:expensetrackermobileapp/provider/show_hide_password.dart';
 import 'package:expensetrackermobileapp/view/forgot_password_page.dart';
 import 'package:expensetrackermobileapp/view/home_page.dart';
 import 'package:expensetrackermobileapp/view/login_page.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProfileImageProvider()),
         ChangeNotifierProvider(create: (context) => ChangeSelectedCategory()),
         ChangeNotifierProvider(create: (context) => DateSelectorProvider()),
+        ChangeNotifierProvider(create: (context) => ShowHidePassword()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
