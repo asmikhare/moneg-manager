@@ -64,13 +64,13 @@ class _LandingHomePageState extends State<LandingHomePage> {
                 height: size.height * 0.01,
               ),
               const Align(
-                  alignment: Alignment.topLeft,
+                  alignment: Alignment.topCenter,
                   child: Text(
                     "Your spendings",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   )),
               SizedBox(
-                height: size.height * 0.01,
+                height: size.height * 0.04,
               ),
               SizedBox(
                 height: size.height * 0.7,

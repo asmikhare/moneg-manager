@@ -73,10 +73,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (globalKey.currentState!.validate()) {
-                      AuthController.sendResetLink(
+                      await AuthController.sendResetLink(
                           resetEmailController.text, context);
+                      resetEmailController.clear();
                     }
                   },
                   child: const Text(

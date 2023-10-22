@@ -19,54 +19,35 @@ class AuthController extends GetxController {
       (error, stackTrace) {
         DialogProgressBar.hideLoadingDialog(context);
         if (error is FirebaseAuthException) {
-          if (error.code == "user-not-found") {
-            ReusableSnackBar.showSnackBar(context, "User not found");
-          } else if (error.code == "wrong-password") {
-            ReusableSnackBar.showSnackBar(
-                context, "Wrong password for that account");
-          } else if (error.code == "network-request-failed") {
-            ReusableSnackBar.showSnackBar(context,
-                "Network request time out,check your internet connectivity");
-          } else {
-            ReusableSnackBar.showSnackBar(context, error.code.toString());
-          }
+          ReusableSnackBar.showSnackBar(context, error.message.toString());
+        } else {
+          ReusableSnackBar.showSnackBar(context, error.toString());
         }
       },
     );
   }
 
   static createUser(String email, String password, BuildContext context) async {
-    try {
-      DialogProgressBar.showDialogProgressBar(context);
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then(
-        (value) {
-          DialogProgressBar.hideLoadingDialog(context);
-          ReusableSnackBar.showSnackBar(context, "Account created");
-          Navigator.pushReplacementNamed(context, "/myhomepage");
-        },
-      );
-    } on FirebaseAuthException catch (e) {
-      if (context.mounted) DialogProgressBar.hideLoadingDialog(context);
-      if (e.code == 'weak-password') {
-        if (context.mounted) {
-          ReusableSnackBar.showSnackBar(context, "Weak password");
-        }
-      } else if (e.code == 'email-already-in-use') {
-        if (context.mounted) {
-          ReusableSnackBar.showSnackBar(context, "Email is already in use");
-        }
+    DialogProgressBar.showDialogProgressBar(context);
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then(
+      (value) {
+        DialogProgressBar.hideLoadingDialog(context);
+        ReusableSnackBar.showSnackBar(context, "Account created");
+        Navigator.pushReplacementNamed(context, "/myhomepage");
+      },
+    ).onError((error, stackTrace) {
+      if (error is FirebaseAuthException) {
+        ReusableSnackBar.showSnackBar(context, error.message.toString());
+      } else {
+        ReusableSnackBar.showSnackBar(context, error.toString());
       }
-    } catch (e) {
-      if (context.mounted) {
-        ReusableSnackBar.showSnackBar(context, "An unknown error occured");
-      }
-    }
+    });
   }
 
-  static sendResetLink(String email, BuildContext context) {
-    auth.sendPasswordResetEmail(email: email).then((value) {
+  static sendResetLink(String email, BuildContext context) async {
+    await auth.sendPasswordResetEmail(email: email).then((value) {
       ReusableSnackBar.showSnackBar(
           context, "Reset link sent sucessfully,check email");
     }).onError(

@@ -63,7 +63,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         children: [
                           Row(
                             children: [
-                              const Icon(Icons.insert_drive_file_outlined),
+                              const Icon(Icons.credit_card),
                               const SizedBox(
                                 width: 10,
                               ),
