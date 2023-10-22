@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expensetrackermobileapp/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pie_chart/pie_chart.dart';
 // import 'package:pie_chart/pie_chart.dart';
 
@@ -48,7 +49,25 @@ class _StatiticsPageState extends State<StatiticsPage> {
                   titleTotals[title] = double.parse(amount);
                 }
               }
-              return PieChart(dataMap: titleTotals);
+              if (titleTotals.isEmpty) {
+                return Center(
+                  child: Column(
+                    children: [
+                      LottieBuilder.asset(
+                          "asset/animation/pieChartAnimation.json"),
+                      const Text(
+                        "Add some expenses to visualize them",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              } else {
+                return PieChart(dataMap: titleTotals);
+              }
             }
           }),
     );

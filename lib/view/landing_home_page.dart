@@ -66,7 +66,7 @@ class _LandingHomePageState extends State<LandingHomePage> {
               const Align(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    "Your spendings",
+                    "Your spending at glance",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   )),
               SizedBox(
