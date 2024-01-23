@@ -85,7 +85,7 @@ class _TransactionPageState extends State<TransactionPage> {
                           ),
                           Row(
                             children: [
-                              const Icon(Icons.attach_money_rounded),
+                              const Icon(Icons.currency_rupee_outlined),
                               const SizedBox(
                                 width: 10,
                               ),

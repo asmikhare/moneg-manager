@@ -117,6 +117,23 @@ class _ProfilePageState extends State<ProfilePage> {
                       Ionicons.log_out_outline,
                       size: 30,
                     ),
+                  ),
+                  const Divider(
+                    thickness: 2,
+                  ),
+                  ListTile(
+                    title: Text(
+                      "Split Bill",
+                      style: listTileTextStyle,
+                    ),
+                    onTap: () {
+                      ReusableSnackBar.showSnackBar(
+                          context, "This feature is under development");
+                    },
+                    leading: const Icon(
+                      Icons.receipt,
+                      size: 30,
+                    ),
                   )
                 ],
               ),

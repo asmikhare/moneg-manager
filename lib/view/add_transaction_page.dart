@@ -85,7 +85,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                   },
                   controller: amountController,
                   decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.attach_money_outlined),
+                      prefixIcon: const Icon(Icons.currency_rupee_outlined),
                       labelText: "Enter amount",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
